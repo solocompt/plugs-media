@@ -55,7 +55,9 @@ setup(
         'plugs_media',
     ],
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        "plugs-core>=0.1.6"
+    ],
     license="MIT",
     zip_safe=False,
     keywords='plugs-media',
