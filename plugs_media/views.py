@@ -24,6 +24,8 @@ class MediaViewSet(viewsets.CreateReadViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     auto_filters_fields = ('content_type', 'object_id')
 
+
+@auto_filters
 class MediaContentTypeViewSet(ReadOnlyModelViewSet):
     """
     Exposing Content Types
@@ -31,3 +33,4 @@ class MediaContentTypeViewSet(ReadOnlyModelViewSet):
     queryset = ContentType.objects.all()
     serializer_class = serializers.MediaContentTypeSerializer
     permission_classes = [permissions.AllowAny]
+    auto_filters_fields = ('app_label', 'model')
