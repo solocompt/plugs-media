@@ -18,7 +18,8 @@ class MediaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Media
-        fields = ('id', 'name', 'file', 'content_type', 'object_id', 'created', 'updated')
+        fields = ('id', 'name', 'file', 'content_type', 'object_id', 'user', 'created', 'updated')
+        read_only_fields = ('user', )
 
 class MediaContentTypeSerializer(serializers.ModelSerializer):
     """

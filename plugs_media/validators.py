@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 
 from plugs_media.models import Media
+from plugs_media.settings import plugs_media_settings
 
 # pylint: disable=R0903
 class MediaValidator(object):
@@ -20,6 +21,8 @@ class MediaValidator(object):
     code = 'invalid_media'
 
     def __call__(self, value):
+        if value in plugs_media_settings.values():
+            return
         try:
             Media.objects.get(file=value)
         except ObjectDoesNotExist:
