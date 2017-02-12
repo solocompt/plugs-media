@@ -1,8 +1,6 @@
 """
 Plugs Media Views
 """
-from django.contrib.contenttypes.models import ContentType
-
 from rest_framework import permissions
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
@@ -23,7 +21,7 @@ class MediaViewSet(viewsets.CreateReadDestroyViewSet):
     queryset = models.Media.objects.all()
     serializer_class = serializers.MediaSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    auto_filters_fields = ('content_type', 'object_id')
+    auto_filters_fields = ('id', 'media_content_type', 'object_id')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -34,7 +32,7 @@ class MediaContentTypeViewSet(ReadOnlyModelViewSet):
     """
     Exposing Content Types
     """
-    queryset = ContentType.objects.all()
+    queryset = models.MediaContentType.objects.all()
     serializer_class = serializers.MediaContentTypeSerializer
     permission_classes = [permissions.AllowAny]
-    auto_filters_fields = ('app_label', 'model')
+    auto_filters_fields = ('id', 'app_label', 'model')

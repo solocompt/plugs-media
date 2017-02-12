@@ -2,7 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import serializers
 
-from plugs_media.models import Media
+from plugs_media import models
 
 
 class MediaSerializer(serializers.ModelSerializer):
@@ -17,15 +17,14 @@ class MediaSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Media
-        fields = ('id', 'name', 'file', 'content_type', 'object_id', 'user', 'created', 'updated')
+        model = models.Media
+        fields = ('id', 'name', 'user', 'file', 'media_content_type', 'object_id', 'created', 'updated')
         read_only_fields = ('user', )
 
 class MediaContentTypeSerializer(serializers.ModelSerializer):
     """
     Media Serializer
     """
-
     class Meta:
-        model = ContentType
-        fields = ('id', 'app_label', 'model')
+        model = models.MediaContentType
+        fields = ('id', 'app_label', 'model', 'created', 'updated')
