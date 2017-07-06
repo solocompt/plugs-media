@@ -22,14 +22,16 @@ class Media(mixins.Timestampable, models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 
     def save(self, *args, **kwargs):
-        parts = self.file.name.split('.')
-        extension = '.' + parts.index(len(parts) - 1)
-        del parts[len(parts) - 1]
-        name = ''.join(map(str, parts))
-        self.name = name
-        self.file.name = str(uuid.uuid4()) + extension
-
-        self.save()
+        try:
+            unicode(self.file.name, errors='strict')
+        except UnicodeDecodeError:
+            parts = self.file.name.split('.')
+            extension = '.' + parts.index(len(parts) - 1)
+            del parts[len(parts) - 1]
+            name = ''.join(map(str, parts))
+            self.name = name
+            self.file.name = str(uuid.uuid4()) + extension
+        super(Media, self).save(*args, **kwargs)
 
     # pylint: disable=R0903
     class Meta:
