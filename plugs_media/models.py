@@ -2,6 +2,8 @@
 Plugs media models
 """
 
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -18,6 +20,15 @@ class Media(mixins.Timestampable, models.Model):
     media_content_type = models.ForeignKey('MediaContentType', on_delete=models.CASCADE, null=True)
     object_id = models.PositiveIntegerField(null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+
+    def save(self, *args, **kwargs):
+        parts = self.file.name.split('.')
+        extension = '.' + parts.index(len(parts) - 1)
+        del parts[len(parts) - 1]
+        name = ''.join(map(str, parts))
+        self.name = name
+        self.file.name = str(uuid.uuid4()) + extension
+        super(Media, self).save(*args, **kwargs)
 
     # pylint: disable=R0903
     class Meta:
