@@ -23,9 +23,9 @@ class Media(mixins.Timestampable, models.Model):
 
     def save(self, *args, **kwargs):
         try:
-            unicode(self.file.name, errors='strict')
+            self.file.name.encode('ascii', errors='strict')
         except UnicodeDecodeError:
-            unicode(self.file.name, errors='ignore')
+            self.file.name.encode('ascii', errors='ignore')
             # parts = self.file.name.split('.')
             # num = len(parts) -1
             # extension = '.' + parts.index(num)
