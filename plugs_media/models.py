@@ -28,7 +28,8 @@ class Media(mixins.Timestampable, models.Model):
         name = ''.join(map(str, parts))
         self.name = name
         self.file.name = str(uuid.uuid4()) + extension
-        super(Media, self).save(*args, **kwargs)
+
+        self.save()
 
     # pylint: disable=R0903
     class Meta:
