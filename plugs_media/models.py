@@ -26,11 +26,12 @@ class Media(mixins.Timestampable, models.Model):
             unicode(self.file.name, errors='strict')
         except UnicodeDecodeError:
             parts = self.file.name.split('.')
-            extension = '.' + parts.index(len(parts) - 1)
-            del parts[len(parts) - 1]
+            num = len(parts) -1
+            extension = '.' + parts.index(num)
+            parts.remove(num)
             name = ''.join(map(str, parts))
-            self.name = name
             self.file.name = str(uuid.uuid4()) + extension
+            self.name = name
         super(Media, self).save(*args, **kwargs)
 
     # pylint: disable=R0903
