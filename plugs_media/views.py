@@ -21,18 +21,7 @@ class MediaViewSet(viewsets.CreateReadDestroyViewSet):
     queryset = models.Media.objects.all()
     serializer_class = serializers.MediaSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    auto_filters_fields = ('id', 'media_content_type', 'object_id')
+    auto_filters_fields = ('id', )
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-
-@auto_filters
-class MediaContentTypeViewSet(ReadOnlyModelViewSet):
-    """
-    Exposing Content Types
-    """
-    queryset = models.MediaContentType.objects.all()
-    serializer_class = serializers.MediaContentTypeSerializer
-    permission_classes = [permissions.AllowAny]
-    auto_filters_fields = ('id', 'app_label', 'model')
