@@ -9,6 +9,8 @@ from base64 import b64decode
 from rest_framework import serializers
 
 from plugs_media import models
+from plugs_media import validators
+
 
 class HybridFileFieldSerializer(serializers.FileField):
 
@@ -16,8 +18,8 @@ class HybridFileFieldSerializer(serializers.FileField):
         """
         Returns the content type of the file using python magic
         """
-        mime = Magic(mime=True)
-        return mime.from_buffer(file_.read(1024))
+        magic = Magic(mime=True)
+        return magic.from_buffer(file_.read(1024))
 
     def to_base64(self, data):
         try:
@@ -26,7 +28,9 @@ class HybridFileFieldSerializer(serializers.FileField):
         except:
             pass
         file_ = BytesIO(b64decode(data))
-        return InMemoryUploadedFile(file_, None, self.get_content_type(file_), None, None, None)
+        content_type = self.get_content_type(file_)
+        extension = content_type.split('/')[1]
+        return InMemoryUploadedFile(file_, None, extension, content_type, file_.__sizeof__(), None)
 
     def to_internal_value(self, data):
         """
@@ -43,7 +47,15 @@ class MediaSerializer(serializers.ModelSerializer):
     Media Serializer
     """
 
-    file = HybridFileFieldSerializer(max_length=100, allow_empty_file=True, use_url=False)
+    file = HybridFileFieldSerializer(
+        max_length=100,
+        allow_empty_file=True,
+        use_url=False,
+        validators=[
+            validators.MediaMaxSizeValidator(),
+            validators.MediaContentTypeValidator(),
+        ]
+    )
 
     class Meta:
         model = models.Media
