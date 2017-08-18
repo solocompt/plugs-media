@@ -13,10 +13,9 @@ from plugs_media.permissions import IsOwnerOrReadOnly
 from plugs_filter.decorators import auto_filters
 
 @auto_filters
-class MediaViewSet(viewsets.CreateReadDestroyViewSet):
+class MediaViewSet(viewsets.CreateReadViewSet):
     """
-    Media Endpoint, does not support update
-    or delete operations
+    Media Endpoint does not support update or delete operations
     """
     queryset = models.Media.objects.all()
     serializer_class = serializers.MediaSerializer
