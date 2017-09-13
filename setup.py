@@ -56,8 +56,8 @@ setup(
     ],
     include_package_data=True,
     install_requires=[
-        "plugs-core>=0.1.6,<0.3.0",
-        "plugs-filter>=0.1.0,<0.3.0",
+        "plugs-core>=0.1.6,<1.0.0",
+        "plugs-filter>=0.1.0,<1.0.0",
         "python-magic>=0.4.13"
     ],
     license="MIT",
