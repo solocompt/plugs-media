@@ -33,5 +33,6 @@ class Media(mixins.Timestampable, models.Model):
         """
         Metaclass definition
         """
+        ordering = ('pk', )
         verbose_name = 'media'
         verbose_name_plural = 'media'
