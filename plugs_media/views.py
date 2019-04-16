@@ -10,9 +10,9 @@ from plugs_media import models
 from plugs_media import serializers
 from plugs_media.permissions import IsOwnerOrReadOnly
 
-from plugs_filter.decorators import auto_filters
+#from plugs_filter.decorators import auto_filters
 
-@auto_filters
+#@auto_filters
 class MediaViewSet(viewsets.CreateReadViewSet):
     """
     Media Endpoint does not support update or delete operations

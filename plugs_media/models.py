@@ -15,7 +15,7 @@ class Media(mixins.Timestampable, models.Model):
     """
     name = models.CharField(max_length=255, null=True, blank=True)
     file = models.FileField(max_length=255, upload_to='%Y/%m/%d/')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.PROTECT)
 
     def save(self, *args, **kwargs):
         if not self.pk:
