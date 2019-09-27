@@ -23,4 +23,7 @@ class MediaViewSet(viewsets.CreateReadViewSet):
     auto_filters_fields = ('id', )
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        try:
+            serializer.save(user=self.request.user)
+        except ValueError:
+            pass
